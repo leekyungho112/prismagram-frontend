@@ -49,8 +49,11 @@ const Wrapper = styled.div`
 
 `;
 
-export default () => {
-    const { data, loading} = useQuery(FEED_QUERY);
+export default ({match: {params: {id}}}) => {
+    const { data, loading} = useQuery(FEED_QUERY,{
+        variables: { id },
+        fetchPolicy: "cache-and-network"
+    });
 return (
     <Wrapper>
          <Helmet>

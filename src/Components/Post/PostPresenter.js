@@ -1,10 +1,13 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import TextareaAutosize from "react-autosize-textarea";
 import FatText from "../FatText";
 import Avatar from "../Avatar";
 import { HeartFull, HeartEmpty, Comment as CommentIcon } from "../Icons";
 import Loader from "../Loader";
+
+
 
 
 const Post = styled.div`
@@ -13,6 +16,9 @@ const Post = styled.div`
   max-width: 600px;
   user-select: none;
   margin-bottom: 25px;
+  a {
+    color : inherit;
+  }
 `;
 
 const Header = styled.header`
@@ -102,14 +108,14 @@ const Comment = styled.li`
   }
 `;
 
-const ExtendedLoader = styled(Loader)`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  
-  
- 
+const Wrapper = styled(Loader)`
+    height: 50vh;
 `;
+
+const Caption = styled.div`
+  margin: 10px 0px;
+`;
+
 
 export default ({
   user: { username, avatar },
@@ -124,14 +130,18 @@ export default ({
   onKeyPress,
   comments,
   selfComments,
-  commentLoading
+  loading,
+  caption
+ 
   
 }) => (
   <Post>
     <Header>
       <Avatar size="sm" url={avatar} />
       <UserColumn>
+        <Link to={`/${username}`}>
         <FatText text={username} />
+        </Link>
         <Location>{location}</Location>
       </UserColumn>
     </Header>
@@ -151,7 +161,9 @@ export default ({
         </Button>
       </Buttons>
       <FatText text={likeCount === 1 ? "1 like" : `${likeCount} likes`} />
-    
+      <Caption>
+        <FatText text={username} /> {caption}
+      </Caption>   
       {comments &&(
           <Comments>
               {comments.map(comment => (
@@ -170,12 +182,13 @@ export default ({
       )}
       
       <Timestamp>{createdAt}</Timestamp>
-      {commentLoading && <ExtendedLoader size={10} />}
+      {loading === true && <Wrapper />}
       <Textarea placeholder={"댓글 달기"} 
       value={newComment.value}
       onChange={newComment.onChange} 
       onKeyPress={onKeyPress} 
-      disabled={commentLoading}/>
+      
+      />
       
     </Meta>
   </Post>

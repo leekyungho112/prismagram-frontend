@@ -25,13 +25,13 @@ const PostContainer = ({
         const [likeCountS, setLikeCount] = useState(likeCount);
         const [currentItem, setCurrentItem] = useState(0);
         const [selfComments, setSelfComments] = useState([]);
-        const [commentLoading, setCommentLoading] = useState(false);
+       
         const comment = useInput("");
         const [toggleLikeMutation] = useMutation(TOGGLE_LIKE, {
             variables: { postId: id }
           });
 
-        const [addCommentMutation] = useMutation(ADD_COMMENT, {
+        const [addCommentMutation, {loading}] = useMutation(ADD_COMMENT, {
             variables: { postId: id, text: comment.value }
             
           });  
@@ -54,26 +54,27 @@ const PostContainer = ({
               setTimeout(() => setCurrentItem(currentItem + 1), 3000);
             }
           }, [currentItem, files]);
-        
-         const onKeyPress = async event => {
+         
+          const onKeyPress = async event => {
             const { which } = event;
             if (which === 13) {
               event.preventDefault();
-              if (comment.value !== "") {
-                setCommentLoading(true);
-                comment.setValue("");
-                try {
+             
+              try {
+                 
                   const {
                     data: { addComment }
                   } = await addCommentMutation();
                   setSelfComments([...selfComments, addComment]);
-                } catch {
-                  toast.error("Can't add comment");
-                }
-                setCommentLoading(false);
+                  comment.setValue("");
+                            
+              } catch {
+                toast.error("Cant send comment");
               }
-            }
-          };
+            
+            } 
+          }; 
+        
     return (<PostPresenter 
                user={user}
                files={files}
@@ -90,7 +91,8 @@ const PostContainer = ({
                toggleLike={toggleLike}
                onKeyPress={onKeyPress}
                selfComments={selfComments}
-               commentLoading={commentLoading}
+               loading={loading}
+               
             />
     );
 };
