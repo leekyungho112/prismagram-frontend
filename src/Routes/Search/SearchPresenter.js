@@ -94,7 +94,8 @@ SearchPresenter.propTypes  = {
                 PropTypes.shape({ url: PropTypes.string.isRequired })
               )
             })
-        )})
+        )
+        })
         
     
 };

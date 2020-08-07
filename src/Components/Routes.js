@@ -6,11 +6,15 @@ import Auth from "../Routes/Auth";
 import Explore from "../Routes/Explore";
 import Search from "../Routes/Search";
 import Profile from "../Routes/Profile";
+import FullFeed from "../Routes/FullFeed";
+import Notifications from "../Routes/Notifications";
 
-const LoggedInRoutes =() => (
+const LoggedInRoutes = () => (
 <Switch>
     <Route exact path="/" component={Feed} />
     <Route path="/explore" component={Explore} />
+    <Route path="/fullFeed/:id" component={FullFeed} />
+    <Route path="/notifications" component={Notifications} />
     <Route path="/search" component={Search} />
     <Route path="/:username" component={Profile} />
     <Redirect from="*" to="/" />
@@ -19,6 +23,7 @@ const LoggedInRoutes =() => (
 const LoggedOutRoutes = () => (
 <Switch>
     <Route exact path="/" component={Auth} />
+    
     <Redirect from="*" to="/" />
 </Switch>);
 const AppRouter = ({ isLoggedIn}) => 

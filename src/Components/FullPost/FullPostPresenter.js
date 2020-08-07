@@ -118,7 +118,7 @@ const Caption = styled.div`
 
 
 export default ({
-
+   
   user: { username, avatar },
   location,
   files,
