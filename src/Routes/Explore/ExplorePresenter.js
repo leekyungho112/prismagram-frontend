@@ -4,6 +4,7 @@ import Loader from '../../Components/Loader';
 import { Helmet } from "react-helmet";
 import FatText from "../../Components/FatText"
 import UserCard from "../../Components/UserCard";
+import SquarePost from "../../Components/SquarePost";
 
 
 const Wrapper = styled.div`
@@ -11,7 +12,7 @@ const Wrapper = styled.div`
 `;
 const Text = styled(FatText)`
     color: ${props => props.theme.darkGreyColor};
-    
+   
 `;
 const Section = styled.div`
     margin-top: 15px;
@@ -21,19 +22,22 @@ const Section = styled.div`
     grid-template-columns: repeat(4, 200px);
     grid-template-rows: 200px;
     grid-auto-rows: 200px;
-    button {
-        margin-top: 48px;
-    }
+   
+`;
+
+const PostSection = styled(Section)`
+  grid-template-columns: repeat(4, 200px);
+  grid-template-rows: 200px;
+  grid-auto-rows: 200px;
 `;
 
 
 const UserCards = styled.div``;
 
-const UserSection = styled(Section)`
-    grid-template-columns: repeat(4, 200px);
-    grid-template-rows: 200px;
-    grid-auto-rows: 200px;
-
+const UserCardItem = styled(Section)`
+  grid-template-columns: repeat(4, 200px);
+  grid-template-rows: 100px;
+  grid-auto-rows: 100px;
 `;
 
 export default ({ data, loading}) => {
@@ -45,7 +49,7 @@ export default ({ data, loading}) => {
           </Wrapper>
         );
 
-        }else if(!loading && data && data.allUser){
+        }else if(!loading && data && data.allUser && data.randomPost){
          
          return (
                 <Wrapper>
@@ -54,8 +58,8 @@ export default ({ data, loading}) => {
                 </Helmet>
                 <UserCards>
                 <Text text="회원님을 위한 추천" />
-                    <UserSection>
-                     {data.allUser.map(user => (
+                <UserCardItem >
+                    {data.allUser.map(user => (
                            <UserCard
                            key={user.id}
                            id={user.id}
@@ -64,10 +68,26 @@ export default ({ data, loading}) => {
                            isFollowing={user.isFollowing}
                            isSelf={user.isSelf}
                            />     
-                        
-                    )) }  
-                    </UserSection>
+                       
+                    ))}
+                     </UserCardItem>  
                     </UserCards> 
+                    <Text text="인기 게시글" />  
+                    <PostSection>
+                    {data.randomPost.length === 0 ? (
+                        <FatText text="게시물을 찾을 수 없습니다." />
+                    ):(data.randomPost.map(post =>(
+                        <SquarePost 
+                          key={post.id}
+                          id={post.id}
+                          likeCount={post.likeCount}
+                          filesCount={post.files}
+                          commentCount={post.commentCount}
+                          file={post.files[0]}
+                        />
+                    ))
+                    )}
+                </PostSection>   
                 </Wrapper>
             );
         }

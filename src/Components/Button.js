@@ -13,6 +13,7 @@ const Container = styled.button`
   padding: 6px 0px;
   font-size: 12px;
   cursor: pointer;
+ 
 `;
 
 const Button = ({ text, onClick }) => (

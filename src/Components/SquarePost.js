@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { HeartFull, CommentFull  } from "./Icons";
+import {Photos, HeartFull, CommentFull  } from "./Icons";
 import { Link } from "react-router-dom";
 
 const Overlay = styled.div`
@@ -16,6 +16,7 @@ const Overlay = styled.div`
   svg {
     fill: white;
   }
+  
   `;
 
 
@@ -46,12 +47,25 @@ const NumberText = styled.span`
     font-size: 16px;
 
 `;
+const PhotoIcon = styled.span`
+    position: absolute;
+    top: 10px;
+    right: 5px;
+`;
 
-
-const SquarePost = ({id, likeCount, commentCount, file}) => (
-
+const SquarePost = ({
+     id,
+     likeCount,
+     filesCount, 
+     commentCount, 
+     file=[] }) => {
+return (
 <Container to={`/FullFeed/${id}`} bg={file.url}>
-
+  {filesCount.length === 1 ? "": (
+    <PhotoIcon>
+    <Photos />
+    </PhotoIcon>
+  )}
     <Overlay>
         <Number>
             <HeartFull />
@@ -64,8 +78,8 @@ const SquarePost = ({id, likeCount, commentCount, file}) => (
     </Overlay>
    
  </Container> 
- 
 );
+};
 
 SquarePost.propTypes = {
     id: PropTypes.string.isRequired,

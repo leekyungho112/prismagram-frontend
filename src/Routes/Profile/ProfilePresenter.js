@@ -132,6 +132,7 @@ export default ({ loading, data, logOut }) => {
                 id={post.id}
                 likeCount={post.likeCount}
                 commentCount={post.commentCount}
+                filesCount={post.files}
                 file={post.files[0]}
               />
             ))}

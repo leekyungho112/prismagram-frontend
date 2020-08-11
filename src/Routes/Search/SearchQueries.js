@@ -6,7 +6,7 @@ export const SEARCH=gql`
         searchPost(term: $term){
             id
             files{
-                url
+                 url
             }
             likeCount
             commentCount
@@ -18,6 +18,7 @@ export const SEARCH=gql`
             isFollowing
             isSelf
         }
+      
     }
 
 

@@ -73,6 +73,7 @@ const SearchPresenter = ({ searchTerm, loading, data })=> {
                       ))
                     )}
                 </PostSection>
+               
             </Wrapper>
        );
    }

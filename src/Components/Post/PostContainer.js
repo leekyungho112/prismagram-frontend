@@ -19,12 +19,14 @@ const PostContainer = ({
     isLiked,
     comments,
     createdAt,
+    commentCount,
     caption,
     location  }) => {
         const [isLikedS, setIsLiked] = useState(isLiked);
         const [likeCountS, setLikeCount] = useState(likeCount);
         const [currentItem, setCurrentItem] = useState(0);
         const [selfComments, setSelfComments] = useState([]);
+        const commentCountS = useState(commentCount)[0];
        
         const comment = useInput("");
         const [toggleLikeMutation] = useMutation(TOGGLE_LIKE, {
@@ -75,7 +77,9 @@ const PostContainer = ({
             } 
           }; 
         
-    return (<PostPresenter 
+    return (
+              <PostPresenter 
+              id={id}
                user={user}
                files={files}
                likeCount={likeCountS}
@@ -92,7 +96,7 @@ const PostContainer = ({
                onKeyPress={onKeyPress}
                selfComments={selfComments}
                loading={loading}
-               
+               commentCount={commentCountS}
             />
     );
 };

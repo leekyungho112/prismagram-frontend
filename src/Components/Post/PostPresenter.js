@@ -19,22 +19,26 @@ const Post = styled.div`
   a {
     color : inherit;
   }
+ 
 `;
 
 const Header = styled.header`
   padding: 15px;
   display: flex;
   align-items: center;
+ 
 `;
 
 const UserColumn = styled.div`
   margin-left: 10px;
+
 `;
 
 const Location = styled.span`
   display: block;
   margin-top: 5px;
   font-size: 12px;
+
 `;
 
 const Files = styled.div`
@@ -44,6 +48,7 @@ const Files = styled.div`
   flex-direction: column;
   align-items: stretch;
   flex-shrink: 0;
+ 
 
 `;
 
@@ -57,14 +62,17 @@ const File = styled.div`
   background-position: center;
   opacity: ${props => (props.showing ? 1 : 0)};
   transition: opacity 0.5s linear;
+
 `;
 
 const Button = styled.span`
   cursor: pointer;
+  
 `;
 
 const Meta = styled.div`
   padding: 15px;
+ 
 `;
 
 const Buttons = styled.div`
@@ -74,7 +82,7 @@ const Buttons = styled.div`
     }
   }
   margin-bottom: 10px;
-`;
+ `;
 
 const Timestamp = styled.span`
   font-weight: 400;
@@ -85,6 +93,7 @@ const Timestamp = styled.span`
   margin: 10px 0px;
   padding-bottom: 10px;
   border-bottom: ${props => props.theme.lightGreyColor} 1px solid;
+  
 `;
 
 const Textarea = styled(TextareaAutosize)`
@@ -94,11 +103,14 @@ const Textarea = styled(TextareaAutosize)`
     font-size: 14px;
         &:focus {
     outline: none;
+
   }
+ 
 `;
 
 const Comments = styled.ul`
   margin-top: 10px;
+ 
 `;
 
 const Comment = styled.li`
@@ -106,19 +118,31 @@ const Comment = styled.li`
   span {
     margin-right: 5px;
   }
+ 
+`;
+
+
+const DetailButton = styled(Button)`
+    display: block;
+    margin-top: 10px;
+    color: ${props => props.theme.darkGreyColor};
 `;
 
 const Wrapper = styled(Loader)`
     height: 50vh;
+    width: 100%;
+   
 `;
 
 const Caption = styled.div`
   margin: 10px 0px;
+  width: 100%;
+ 
 `;
 
 
 export default ({
-
+  id,
   user: { username, avatar },
   location,
   files,
@@ -130,6 +154,7 @@ export default ({
   toggleLike,
   onKeyPress,
   comments,
+  commentCount,
   selfComments,
   loading,
   caption
@@ -158,22 +183,29 @@ export default ({
           {isLiked ? <HeartFull /> : <HeartEmpty />}
         </Button>
         <Button>
-          <CommentIcon />
+        <Link to={`/FullFeed/${id}`}>
+       <CommentIcon />
+       </Link>
         </Button>
       </Buttons>
       <FatText text={likeCount === 1 ? "1 like" : `${likeCount} likes`} />
       <Caption>
         <FatText text={username} /> {caption}
-      </Caption>   
+      </Caption>  
+      <DetailButton>
+                <Link to={`/FullFeed/${id}`}>
+                    {commentCount > 2 ? `댓글 ${commentCount}개 모두 보기` : ""}
+                </Link>
+      </DetailButton>
       {comments &&(
           <Comments>
-              {comments.map(comment => (
+              {comments.slice(0,2).map(comment => (
                   <Comment key={comment.id}>
                       <FatText text={comment.user.username} />
                       {comment.text}
                   </Comment>
               ))}
-              {selfComments.map(comment => (
+              { selfComments.map(comment => (
                   <Comment key={comment.id}>
                       <FatText text={comment.user.username} />
                       {comment.text}

@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Link, withRouter } from "react-router-dom";
 import Input from "./Input";
 import useInput from "../Hooks/useInput";
-import { Compass, HeartEmpty, User, Logo } from "./Icons";
+import NoticeLike from "./NoticeLike";
+import { Compass,  User, Logo } from "./Icons";
 import { useQuery } from "react-apollo-hooks";
 import { ME } from "../SharedQueries";
 
 
 const Header = styled.header`
+ 
   width: 100%;
   border: 0;
   position: fixed;
@@ -22,6 +24,8 @@ const Header = styled.header`
   align-items: center;
   padding: 25px 0px;
   z-index: 2;
+  
+  
 `;
 
 const HeaderWrapper = styled.div`
@@ -29,6 +33,7 @@ const HeaderWrapper = styled.div`
   max-width: ${props => props.theme.maxWidth};
   display: flex;
   justify-content: center;
+ 
 `;
 
 const HeaderColumn = styled.div`
@@ -42,6 +47,7 @@ const HeaderColumn = styled.div`
     margin-left: auto;
     text-align: right;
   }
+ 
 `;
 
 const SearchInput = styled(Input)`
@@ -56,23 +62,36 @@ const SearchInput = styled(Input)`
     opacity: 0.8;
     font-weight: 200;
   }
+ 
 `;
 
 const HeaderLink = styled(Link)`
   &:not(:last-child) {
     margin-right: 30px;
   }
+ 
 `;
-
+const HeaderNotice = styled.button`
+    margin-right: 30px;
+    border: 0;
+    outline: none;
+    cursor: pointer;
+    background-color: inherit;
+`;
 
 
 export default withRouter(({ history }) => {
   const search = useInput("");
+  const [ toggleButton, setToggleButton ] = useState(false);
   const {data} = useQuery(ME);
   const onSearchSubmit = e =>{
       e.preventDefault();
       history.push(`/search?term=${search.value}`)
   };
+  const handleButton = () => {
+    setToggleButton(!toggleButton);
+  };
+
   return (
     <Header>
       <HeaderWrapper>
@@ -90,9 +109,9 @@ export default withRouter(({ history }) => {
           <HeaderLink to="/explore">
             <Compass />
           </HeaderLink>
-          <HeaderLink to="/notifications">
-            <HeartEmpty />
-          </HeaderLink>
+          <HeaderNotice onClick={handleButton}>
+            <NoticeLike toggleButton={toggleButton} />
+          </HeaderNotice>
           {!(data && data.me) ?(<HeaderLink to="/#">
             <User />
           </HeaderLink>) :(<HeaderLink to={data.me.username}>

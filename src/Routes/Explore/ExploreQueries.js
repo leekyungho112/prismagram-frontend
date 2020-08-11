@@ -8,6 +8,25 @@ export const ALL_USERS = gql`
             avatar
             isFollowing
             isSelf
+            posts {
+                id
+                files {
+                    id
+                    url
+                }
+                likeCount
+                commentCount
+            }
+        }
+
+        randomPost {
+            id
+            files {
+                id
+                url
+            }
+            likeCount
+            commentCount
         }
     }
 

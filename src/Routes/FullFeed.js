@@ -58,19 +58,19 @@ return (
             </Helmet>
         {loading && <Loader />}
         {!loading &&
-              data && data.seeFullPost &&
-              data.seeFullPost.map(post =>
+              data && 
+              data.seeFullPost && (
                 <FullPost 
-                    key={post.id}
-                    id={post.id}
-                    location={post.location}
-                    caption={post.caption}
-                    user={post.user}
-                    files={post.files}
-                    isLiked={post.isLiked}
-                    likeCount={post.likeCount}
-                    comments={post.comments}
-                    createdAt={post.createdAt}
+                    key={data.seeFullPost.id}
+                    id={data.seeFullPost.id}
+                    location={data.seeFullPost.location}
+                    caption={data.seeFullPost.caption}
+                    user={data.seeFullPost.user}
+                    files={data.seeFullPost.files}
+                    isLiked={data.seeFullPost.isLiked}
+                    likeCount={data.seeFullPost.likeCount}
+                    comments={data.seeFullPost.comments}
+                    createdAt={data.seeFullPost.createdAt}
                 />
             )}
     </Wrapper>
