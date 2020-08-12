@@ -49,7 +49,15 @@ export default ({ data, loading}) => {
           </Wrapper>
         );
 
-        }else if(!loading && data && data.allUser && data.randomPost){
+        } else if (!data.allUser || !data.randomPost){
+          return (
+            <Wrapper>
+            <div>다른 계정들이 추가되지 않았습니다.</div>
+          </Wrapper>
+
+          );
+        
+        } else if(!loading && data && data.allUser && data.randomPost){
          
          return (
                 <Wrapper>
@@ -58,9 +66,12 @@ export default ({ data, loading}) => {
                 </Helmet>
                 <UserCards>
                 <Text text="회원님을 위한 추천" />
-                <UserCardItem >
+                {data.allUser.length === 0 ?(
+                  <FatText text="사용자를 찾을수 없습니다" />
+                ) : (
+                  <UserCardItem >
                     {data.allUser.map(user => (
-                           <UserCard
+                          <UserCard
                            key={user.id}
                            id={user.id}
                            url={user.avatar}
@@ -68,9 +79,10 @@ export default ({ data, loading}) => {
                            isFollowing={user.isFollowing}
                            isSelf={user.isSelf}
                            />     
-                       
+                     
                     ))}
-                     </UserCardItem>  
+                      </UserCardItem> 
+                )}
                     </UserCards> 
                     <Text text="인기 게시글" />  
                     <PostSection>
